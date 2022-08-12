@@ -1,0 +1,28 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+group = 'com.my'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+dependencies {
+	compile group :'org.bgee.log4jdbc-log4j2', name:'log4jdbc-log4j2-jdbc4.1', version:'1.16'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
