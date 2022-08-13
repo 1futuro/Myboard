@@ -1,5 +1,7 @@
 package com.my.board.entity;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 import java.util.Date;
 
 public class Board {
