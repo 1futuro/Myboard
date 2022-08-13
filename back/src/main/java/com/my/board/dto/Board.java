@@ -1,7 +1,9 @@
 package com.my.board.dto;
 
-import java.util.Date;
+import jdk.nashorn.internal.objects.annotations.Getter;
 
+import java.util.Date;
+@Getter
 public class Board {
     private int boardNo;
     private String boardTitle;
