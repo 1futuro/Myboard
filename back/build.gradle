@@ -5,30 +5,34 @@ plugins {
 	id 'war'
 }
 
-group = 'com.my'
+group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	compile group :'org.bgee.log4jdbc-log4j2', name:'log4jdbc-log4j2-jdbc4.1', version:'2.17.0'
-//	compile 'com.zaxxer:HikariCP:3.4.5'
-//
+	// https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8
+	implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '21.1.0.0'
+// https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1
+	implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
 }
-//dependencies {
-//
-//}
 
 tasks.named('test') {
 	useJUnitPlatform()
-
-
 }
