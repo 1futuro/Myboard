@@ -1,0 +1,9 @@
+* {
+    box-sizing: border-box;
+    /* overflow:scroll */
+}
+
+.write-button{
+    text-align: right;
+    margin-bottom: 10px;
+}

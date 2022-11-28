@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Load Styles -->
+    <!-- Data table stylesheet -->
+    <link href="../static/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- /data table stylesheet -->
+
+    <link rel="stylesheet" href="../static/css/semidark-style-1.min.css">
+    <!-- <link th:href="@{/css/semidark-style-1.min.css" rel="stylesheet" /> -->
+    <link href="../static/css/detail.css" rel="stylesheet">
+    <!-- <link th:href="@{/css/detail.css" rel="stylesheet" /> -->
+
+</head>
+<body>
+    <main>
+        <section>
+            <div class="first-bar">
+                <div>글 번호</div>
+                <div class="board_no"></div>
+                <div>글 제목</div>
+                <div class="board_title"></div>
+            </div>
+            <div class="second-bar">
+                <div>작성자</div>
+                <div class="board_id"></div>
+                <div>작성일</div>
+                <div class="board_dt"></div>
+                <div>조회수</div>
+                <div class="view_cnt"></div>
+            </div>
+        </section>
+        <article>
+           <div class="board_content">
+           </div> 
+        </article>
+        
+        <div class="button">
+            <div class="modify">
+                <button class="bt-modify btn btn-outline-success mr-2 mb-2" type="button"> 수정 </button>
+            </div>
+            <div class="delete">
+                <button class="bt-delete btn btn-outline-danger mr-2 mb-2" type="button">삭제</button>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script src="../static/js/custom/detail.js"></script>
+    <!-- <script th:src="@{/js/custom/detail.js}"></script> -->
+</body>
+</html>
