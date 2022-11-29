@@ -1,8 +1,8 @@
 (function ($) {
-	function showList(url){
+	function showList(url) {
 		// 화면 로딩
 		$.ajax({
-			url: "http://localhost:8888/board/board/list",
+			url: url,
 			method: "get",
 			success: function (jsonObj) {
 				if (jsonObj.status == 1) {
@@ -11,75 +11,73 @@
 					$tbody.children().remove();
 					$(content).each(function (index, item) {
 						$tbody.append(
-							`
-							<tr>
-							<td>${item.boardNo}</td>
-							<td>${item.boardTitle}</td>
-							<td>${item.boardId}</td>
-							<td>${item.boardDate}</td>
-							<td>${item.viewCnt}</td>
-							</tr>
-							`
+						`
+						<tr>
+						<td>${item.boardNo}</td>
+						<td>${item.boardTitle}</td>
+						<td>${item.boardId}</td>
+						<td>${item.boardDate}</td>
+						<td>${item.viewCnt}</td>
+						</tr>
+						`
 						);
 					});
 
-					
-					// 페이지 그룹
-					// 총 페이지 수가 3(cntPerPageGroup)보다 많으면 next 활성화. next 클릭 시 리셋하고 4,5,6 노출. previous 노출
-					// 총 페이지 수가 3 보다 적으면 next, previous 숨김
-					// let $pagegroup = $('ul.pagination li');
-					let $pagegroupHtml = '';
+					const pages = $(".pagination");
+					pages.empty();
+
 					let pageObj = jsonObj.t;
 					let totalPage = pageObj.totalPages;
 					let currentPage = pageObj.number + 1;
-					let cntPerPageGroup = 3;
-					let endPage = Math.ceil(currentPage / cntPerPageGroup) * cntPerPageGroup;
-					let startPage = endPage - cntPerPageGroup + 1;
-					let nextPage = endPage + 1;
-					
-					// console.log('startPage :', startPage)
-					// console.log('endPage :', endPage)
-					// console.log('totalPage :', totalPage)
-					// console.log('currentPage :', currentPage)
-					let $ul = $('ul.pagination');
-					$ul.children().remove();
+					const pageCount = 3;
 
-					if(totalPage < endPage){
-						endPage = totalPage;
+					console.log("totalPage :", totalPage);
+					console.log("currentPage :", currentPage);
+
+					let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
+					let last = pageGroup * pageCount; // 화면에 보여질 마지막 페이지 번호
+					let first = last - (pageCount - 1);
+					const next = last + 1;
+					const prev = first - 1;
+
+					console.log("last : ", last);
+					console.log("first : ", first);
+					console.log("next : ", next);
+					console.log("prev : ", prev);
+
+					if (last > totalPage) { 
+						last = totalPage;
 					}
-					// 첫번째 페이지
-					if(currentPage > 1 && cntPerPageGroup < currentPage){
-						$pagegroupHtml += `<a class="page-link"
-						href="javascript:void(0)">Previous</a>`
+
+					if (first > 3) {
+						pages.append(
+						`<li class = "page-item" id= "previous"><a class="page-link" href="javascript:void(0)">Previous</a></li>`
+						);
 					}
 
-
-					
-					// if (totalPage < 1) {
-					// startPage = endPage;
-					// } else if (totalPage < endPage) {
-					// 	endPage = totalPage;
-					// }
-					// if(endPage == 3){
-					// 	$('#previous').hide();
-					// }else if(endPage == totalPage){
-					// 	$('#next').hide();
-					// } else if(endPage < totalPage ){
-					// 	$('#next').show();
-					// } else if(startPage > 1) {
-					// 	$('#previous').show();
-					// }
-					
-					
-				} 
-					
-				},
-			
+					for (let j = first; j <= last; j++) {
+						if (currentPage === j) {
+							pages.append(
+								`<li class="page-item""><a class="page-link" href="javascript:void(0)">${j}</a></li>`
+							);
+						} else if (j > 0) {
+						pages.append(
+							`<li class="page-item"><a class="page-link" href="javascript:void(0)">${j}</a></li>`
+						);
+						}
+					}
+					if (next > 3 || next < totalPage) {
+						pages.append(
+						`<li class="page-item" id= "next"><a class="page-link" href="javascript:void(0)">Next</a></li>`
+						);
+					}
+				}
+			},
 			error: function (jqXHR) {
 				alert(jqXHR.status);
-			}
+			},
 		});
-	
+		return false;
 	}
 	showList("http://localhost:8888/board/board/list");
 
@@ -90,21 +88,25 @@
 		url = "http://localhost:8888/board/board/search/" + word;
 		showList(url);
 	});
-	
 
 	// 페이지 클릭
-	$("ul.pagination li").on("click", (e) => {
+	// $("ul.pagination li").on("click", (e) => {
+	$("li.page-item").on("click", (e) => {
 		// e : 이벤트 발생(function()과 같은 기능)
 		const pageValue = $(e.currentTarget).text(); // 클릭한 페이지 값
-		console.log('pageValue check : ' , pageValue);
+		console.log("pageValue check : ", pageValue);
 		//next 클릭 시 -> endPage +1 이 startPage
 
-
 		const $searchVal = $("input.search-box").val().trim(); // 검색어 입력 값
-		console.log('searchVal check : ' , $searchVal);
+		console.log("searchVal check : ", $searchVal);
 
+		if(pageValue == "Next"){
+			console.log(next);
+		}
+
+		
 		const pageUrl =
-			$searchVal.length == 0
+		$searchVal.length == 0
 			? `http://localhost:8888/board/board/list/${pageValue}`
 			: `http://localhost:8888/board/board/search/${$searchVal}/${pageValue}`;
 
@@ -113,6 +115,4 @@
 		showList(pageUrl);
 	});
 
-	
-	
 })(jQuery);

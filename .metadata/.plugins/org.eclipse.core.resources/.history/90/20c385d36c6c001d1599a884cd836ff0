@@ -1,0 +1,25 @@
+spring.datasource.hikari.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.hikari.jdbc-url=jdbc:mysql://localhost:3306/board
+spring.datasource.hikari.username=future
+spring.datasource.hikari.password=future
+spring.datasource.hikari.connection-test-query=SELECT NOW() FROM dual
+
+server.port=8888
+server.servlet.context-path:/board
+spring.mvc.view.suffix=.html
+spring.mvc.hiddenmethod.filter.enabled=true
+spring.jpa.defer-datasource-initialization=true
+
+logging.level.root=info  
+logging.charset.console=UTF-8
+logging.level.org.hibernate=info
+
+#JPA
+spring.jpa.database=mysql
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.generate-ddl=true 
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+
+#SQL자동줄바꿈
+spring.jpa.properties.hibernate.format_sql=true
