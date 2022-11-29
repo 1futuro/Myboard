@@ -26,9 +26,9 @@
         <div class="dt-entry__header">
             
             <!-- Entry Heading -->
-            <div class="dt-entry__heading">
+            <!-- <div class="dt-entry__heading">
                 <h3 class="dt-entry__title">Simple Table With Stripped Rows</h3>
-            </div>
+            </div> -->
             <!-- /entry heading -->
             
         </div>
@@ -109,20 +109,25 @@
     <!-- Pagination -->
     <nav>
         <ul class="pagination">
-            <li class="page-item"><a class="page-link"
-                                    href="javascript:void(0)">Previous</a>
+            <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)"
+                tabindex="-1">Previous</a>
             </li>
             <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a>
             </li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a>
+            <li class="page-item active">
+                <a class="page-link" href="javascript:void(0)">2 <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>
             </li>
-            <li class="page-item"><a class="page-link"
-                                    href="javascript:void(0)">Next</a></li>
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">Next</a>
+            </li>
         </ul>
     </nav>
     <!-- /pagination -->
+
 
     <!-- Optional JavaScript -->
     <script src="../static/node_modules/jquery/dist/jquery.min.js"></script>

@@ -24,15 +24,16 @@
 					});
 
 					const pages = $(".pagination");
-					pages.empty();
+					// pages.empty();
+					pages.children().remove();
 
 					let pageObj = jsonObj.t;
 					let totalPage = pageObj.totalPages;
 					let currentPage = pageObj.number + 1;
 					const pageCount = 3;
 
-					console.log("totalPage :", totalPage);
-					console.log("currentPage :", currentPage);
+					// console.log("totalPage :", totalPage);
+					// console.log("currentPage :", currentPage);
 
 					let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
 					let last = pageGroup * pageCount; // 화면에 보여질 마지막 페이지 번호
@@ -40,10 +41,10 @@
 					const next = last + 1;
 					const prev = first - 1;
 
-					console.log("last : ", last);
-					console.log("first : ", first);
-					console.log("next : ", next);
-					console.log("prev : ", prev);
+					// console.log("last : ", last);
+					// console.log("first : ", first);
+					// console.log("next : ", next);
+					// console.log("prev : ", prev);
 
 					if (last > totalPage) { 
 						last = totalPage;
@@ -51,14 +52,16 @@
 
 					if (first > 3) {
 						pages.append(
-						`<li class = "page-item" id= "previous"><a class="page-link" href="javascript:void(0)">Previous</a></li>`
+							`<li class = "page-item" id= "previous"><a class="page-link" href="javascript:void(0)">Previous</a></li>`
 						);
 					}
 
 					for (let j = first; j <= last; j++) {
 						if (currentPage === j) {
 							pages.append(
-								`<li class="page-item""><a class="page-link" href="javascript:void(0)">${j}</a></li>`
+								`<li class="page-item active">
+								<a class="page-link" href="javascript:void(0)">${j} <span class="sr-only">(current)</span></a>
+								</li>`
 							);
 						} else if (j > 0) {
 						pages.append(
@@ -70,6 +73,9 @@
 						pages.append(
 						`<li class="page-item" id= "next"><a class="page-link" href="javascript:void(0)">Next</a></li>`
 						);
+					} 
+					if(first == totalPage || last == totalPage){
+						$('#next').hide();
 					}
 				}
 			},
@@ -77,7 +83,7 @@
 				alert(jqXHR.status);
 			},
 		});
-		return false;
+		// return false;
 	}
 	showList("http://localhost:8888/board/board/list");
 
@@ -91,9 +97,10 @@
 
 	// 페이지 클릭
 	// $("ul.pagination li").on("click", (e) => {
-	$("li.page-item").on("click", (e) => {
+	$("ul.pagination").on("click", "li.page-item", (e) => {
 		// e : 이벤트 발생(function()과 같은 기능)
-		const pageValue = $(e.currentTarget).text(); // 클릭한 페이지 값
+		// const pageValue = $(e.currentTarget).text(); // 클릭한 페이지 값
+		let pageValue = $(e.currentTarget).text();
 		console.log("pageValue check : ", pageValue);
 		//next 클릭 시 -> endPage +1 이 startPage
 
@@ -101,10 +108,13 @@
 		console.log("searchVal check : ", $searchVal);
 
 		if(pageValue == "Next"){
-			console.log(next);
-		}
+			pageValue = parseInt($(e.currentTarget).prev().text()) +1;
+			console.log("next page : ", pageValue);
 
-		
+		}else if(pageValue == "Previous"){
+			pageValue = parseInt($(e.currentTarget).next().text()) -1;
+			console.log("previous page :" , pageValue)
+		}	
 		const pageUrl =
 		$searchVal.length == 0
 			? `http://localhost:8888/board/board/list/${pageValue}`
