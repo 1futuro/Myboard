@@ -1,12 +1,12 @@
 package com.example.board.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,17 +19,23 @@ import com.example.board.exception.AddException;
 import com.example.board.exception.FindException;
 import com.example.board.exception.ModifyException;
 import com.example.board.exception.RemoveException;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class BoardService {
-//	Logger logger = LoggerFactory.getILoggerFactory(getClass());
-
-	@Autowired
-	BoardRepository boardRepo;
 
 	// @Autowired
-	// JPAQueryFactory jpaQueryFactory;
+	private final BoardRepository boardRepo;
+
+	private final JPAQueryFactory queryFactory;
 	
+
 	// 게시글 목록
 	// public List<BoardDto> boardList() throws FindException {
 	// 	List<BoardEntity> entity = boardRepo.findAll();
@@ -41,10 +47,15 @@ public class BoardService {
 	// 	return boardDto;
 	// }
 	
-	// 게시글 목록(pageable)
-	public Page<BoardDto> boardList(int currentPage) throws FindException {
-		Page<BoardEntity> entity = boardRepo.findAll(PageRequest.of(currentPage, 5, Sort.by("boardNo").descending()));
 
+	// 게시글 목록(pageable)
+	public Page<BoardDto> boardList(int currentPage) throws FindException { //BoardENntity, Pageable
+		Page<BoardEntity> entity = boardRepo.findAll(PageRequest.of(currentPage, 5, Sort.by("boardNo").descending()));
+		
+		// Example<BoardEntity> example = Example.of(new BoardEntity()); // 가상의 테이블
+		
+		// boardRepo.findAll(example, null);
+		
 		ModelMapper modelMapper = new ModelMapper();
 		Page<BoardDto> boardDto = modelMapper.map(entity, new TypeToken<Page<BoardDto>>() {
 		}.getType());
@@ -52,6 +63,12 @@ public class BoardService {
 		return boardDto;
 	}
 
+	// public Page<BoardEntity> findAll(BoardDto dto , Pageable pageable){
+	// 	Example<BoardEntity> example = Example.of(new BoardEntity());
+	// 	return boardRepo.findAll(example, pageable);
+	// }
+
+	
 	// 게시글 상세
 	public BoardDto boardDetail(Long boardNo) throws FindException {
 
@@ -85,16 +102,16 @@ public class BoardService {
 		return dto;
 	}
 	
-	// 검색어 조회
-	// public List<BoardDto> searchBoard(String word) {
-	// 	List<BoardEntity> entity = boardRepo.findByWord(word);
+//	검색어 조회
+	public List<BoardDto> searchBoard(String word) {
+		List<BoardEntity> entity = boardRepo.findByWord(word);
 
-	// 	ModelMapper modelMapper = new ModelMapper();
-	// 	List<BoardDto> dto = modelMapper.map(entity, new TypeToken<List<BoardDto>>() {
-	// 	}.getType());
+		ModelMapper modelMapper = new ModelMapper();
+		List<BoardDto> dto = modelMapper.map(entity, new TypeToken<List<BoardDto>>() {
+		}.getType());
 
-	// 	return dto;
-	// }
+		return dto;
+	}
 	
 
 	// 게시글 작성

@@ -24,7 +24,6 @@
 					});
 
 					const pages = $(".pagination");
-					// pages.empty();
 					pages.children().remove();
 
 					let pageObj = jsonObj.t;

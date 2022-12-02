@@ -9,27 +9,15 @@
 				$tbody.children().remove(); // tbody 안의 하위 요소들 제거 해 주어야 함 (불필요한 내용 삭제, 리스트업 후 새로고침 시 데이터 업데이트 되도록)
 				// 제거 해 주어야 함
 				$(jsonObj.t).each(function (index, board) {
-					// console.log(board);
-					// console.log(board.boardNo);
-					// let $board = $("div tr>td").first();
-					// let $boardCopy = $board.clone();
-
-					// $boardCopy.find().append(board.boardNo + " ");
-					// $("tr>td").append(board.boardTitle + " ");
-					// $("tr>td").append(board.boardTitle + " ");
-					// $("tr>td").append(board.boardId + " ");
-					// $("tr>td").append(board.boardDate + " ");
-					// $("tr>td").append(board.viewCnt + " ");
-
 					$tbody.append(` 
-														<tr>
-																<td>${board.boardNo}</td>
-																<td>${board.boardTitle}</td>
-																<td>${board.boardId}</td>
-																<td>${board.boardDate}</td>
-																<td>${board.viewCnt}</td>
-														</tr>
-												`); // ` ` 안을 문자열로 인식하여 문자열을 append 하겠다는 뜻
+						<tr>
+							<td>${board.boardNo}</td>
+							<td>${board.boardTitle}</tßd>
+							<td>${board.boardId}</td>
+							<td>${board.boardDate}</td>
+							<td>${board.viewCnt}</td>
+						</tr>
+					`); // ` ` 안을 문자열로 인식하여 문자열을 append 하겠다는 뜻
 				});
 				// 화면 로딩 완료 후 실행될 수 있도록 위치 조정
 				$("#data-table").DataTable({

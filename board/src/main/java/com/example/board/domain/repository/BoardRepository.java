@@ -13,15 +13,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 	public Page<BoardEntity> findAll(Pageable pageable);	
 
 	// 검색어로 조회(최신순)
-	// 	@Query(value="SELECT * FROM board\n"
-	// 		+ "WHERE board_title LIKE %?1%\n"
-	// 		+ "OR board_content LIKE %?1%\n"
-	// 		+ "OR board_id LIKE %?1%\n"
-	// 		+ "ORDER BY board_date DESC", nativeQuery=true)
-	// public Page<BoardEntity> findByWord(String word, Pageable pageable);
-
-
-	// 검색어로 조회(최신순)
 	@Query(value="SELECT * FROM board\n"
 			+ "WHERE board_title LIKE %?1%\n"
 			+ "OR board_content LIKE %?1%\n"
