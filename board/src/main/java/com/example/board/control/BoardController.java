@@ -1,9 +1,13 @@
 package com.example.board.control;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.board.domain.entity.BoardEntity;
 import com.example.board.dto.BoardDto;
 import com.example.board.dto.ResultBean;
 import com.example.board.exception.AddException;
@@ -28,9 +33,12 @@ import com.example.board.exception.ModifyException;
 import com.example.board.exception.RemoveException;
 import com.example.board.service.BoardService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/board/*")
+@Slf4j
 public class BoardController {
 
 	@Autowired
@@ -38,24 +46,25 @@ public class BoardController {
 
 	@Autowired
 	ServletContext sc;
-
+	
+	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	// // 게시글 목록
-	// @GetMapping(value = {"list", "list/{optCp}" })
-	// public ResultBean<List<BoardDto>> boardList(@PathVariable Optional<Integer> optCp) {
-	// 	ResultBean<List<BoardDto>> rb = new ResultBean<>();
+	@GetMapping(value = {"list1", "list1/{optCp}" })
+	public ResultBean<List<BoardDto>> boardList1(@PathVariable Optional<Integer> optCp) {
+		ResultBean<List<BoardDto>> rb = new ResultBean<>();
 
-	// 	try {
-	// 		List<BoardDto> pb = service.boardList();
-	// 		rb.setStatus(1);
-	// 		rb.setT(pb);
-	// 		return rb;
-	// 	} catch (FindException e) {
-	// 		rb.setStatus(0);
-	// 		rb.setMsg(e.getMessage());
-	// 	}
-	// 	return rb;
-	// }
+		try {
+			List<BoardDto> pb = service.boardList();
+			rb.setStatus(1);
+			rb.setT(pb);
+			return rb;
+		} catch (FindException e) {
+			rb.setStatus(0);
+			rb.setMsg(e.getMessage());
+		}
+		return rb;
+	}
 	
 	// 게시글 목록(pageable)
 	@GetMapping(value = {"list", "list/{optCp}" })
@@ -128,6 +137,27 @@ public class BoardController {
 	// 	} catch (Exception e) {
 	// 		e.printStackTrace();
 	// 	}
+	// 	return rb;
+	// }
+
+	// 검색어 조회
+	// @GetMapping(value = {"find/{optWord2}/{optCp2}","find/{optWord2}","find"})
+	// public ResultBean<List<BoardDto>> searchBoard2(@PathVariable Optional<String> optWord2,
+	// 												@PathVariable Optional<Integer> optCp2){
+		
+	// 	ResultBean<List<BoardDto>> rb = new ResultBean<>();
+	// 	List<BoardDto> lb;
+	// 	String word ="";
+
+	// 	if(optWord2.isPresent()){
+	// 		word = optWord2.get();
+	// 		logger.info("--------------------"+ word +"----------------");
+	// 	} 
+
+	// 	lb = service.searchBoard2(word);
+	// 	rb.setT(lb);
+	// 	rb.setStatus(1);
+		
 	// 	return rb;
 	// }
 	
@@ -222,6 +252,19 @@ public class BoardController {
 			rb.setMsg("삭제실패");
 		}
 		return rb;
+	}
+
+	// 엑셀 다운로드
+
+	@GetMapping(value = "download/excel", produces = "application/vnd.ms-excel")
+	public void downloadExcel(HttpServletResponse response){
+		
+		try{
+			service.downloadExcel(response);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

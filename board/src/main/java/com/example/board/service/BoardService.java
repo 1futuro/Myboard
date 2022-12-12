@@ -1,12 +1,26 @@
 package com.example.board.service;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,12 +36,11 @@ import com.example.board.exception.RemoveException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
+// @Slf4j
 public class BoardService {
 
 	// @Autowired
@@ -35,17 +48,18 @@ public class BoardService {
 
 	private final JPAQueryFactory queryFactory;
 	
-
-	// 게시글 목록
-	// public List<BoardDto> boardList() throws FindException {
-	// 	List<BoardEntity> entity = boardRepo.findAll();
+	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	// 게시물 목록(pageable X)
+	public List<BoardDto> boardList() throws FindException {
+		List<BoardEntity> entity = boardRepo.findAll();
 		
-	// 	ModelMapper modelMapper = new ModelMapper();
-	// 	List<BoardDto> boardDto = modelMapper.map(entity, new TypeToken<List<BoardDto>>() {
-	// 	}.getType());
+		ModelMapper modelMapper = new ModelMapper();
+		List<BoardDto> boardDto = modelMapper.map(entity, new TypeToken<List<BoardDto>>() {
+		}.getType());
 
-	// 	return boardDto;
-	// }
+		return boardDto;
+	}
 	
 
 	// 게시글 목록(pageable)
@@ -59,7 +73,7 @@ public class BoardService {
 		ModelMapper modelMapper = new ModelMapper();
 		Page<BoardDto> boardDto = modelMapper.map(entity, new TypeToken<Page<BoardDto>>() {
 		}.getType());
-
+		
 		return boardDto;
 	}
 
@@ -103,15 +117,19 @@ public class BoardService {
 	}
 	
 //	검색어 조회
-	public List<BoardDto> searchBoard(String word) {
-		List<BoardEntity> entity = boardRepo.findByWord(word);
+	// public List<BoardDto> searchBoard2(String word) {
+	// 	QBoardEntity qBoard = QBoardEntity.boardEntity;
+	// 	List<BoardEntity> entity = 
+	// 	queryFactory.selectFrom(qBoard)
+	// 	.where((qBoard.boardTitle.contains("").or(qBoard.boardContent.contains("").or(qBoard.boardId.contains("")))))
+	// 	.orderBy(qBoard.boardDate.desc()).fetch();
 
-		ModelMapper modelMapper = new ModelMapper();
-		List<BoardDto> dto = modelMapper.map(entity, new TypeToken<List<BoardDto>>() {
-		}.getType());
+	// 	ModelMapper modelMapper = new ModelMapper();
+	// 	List<BoardDto> dto = modelMapper.map(entity, new TypeToken<List<BoardDto>>() {
+	// 	}.getType());
 
-		return dto;
-	}
+	// 	return dto;
+	// }
 	
 
 	// 게시글 작성
@@ -149,9 +167,78 @@ public class BoardService {
 	}
 	
 	
-	// - entitymanager / jpa query dsl
-	// public List<BoardDto> findByWord(String word){
-	// 	return jpaQueryFactory.select(*).from();
-	// }
+	// 엑셀 다운로드
+	public void downloadExcel(HttpServletResponse response) throws IOException{
+		
+		final String fileName = "게시글 목록";
+
+		// 빈 workbook(하나의 엑셀파일) 생성
+		Workbook workbook = new SXSSFWorkbook();
+		// 워크시트 생성
+		Sheet sheet = workbook.createSheet("게시물 목록");
+		
+		// 헤더 Cell 스타일
+		CellStyle headerStyle = workbook.createCellStyle();
+		Font font = workbook.createFont();
+		font.setBold(true);
+		headerStyle.setFont(font);
+
+		Row row = null;
+		Cell cell = null;
+
+		// Sheet를 채우기 위한 데이터 
+		// 헤더
+		String[] header = {"번호","제목","내용", "작성자","작성일","조회수"};
+		row = sheet.createRow(0); // sheet 안의 행
+		for(int i=0 ; i< header.length; i ++) {
+			cell = row.createCell(i);
+			cell.setCellValue(header[i]);
+			cell.setCellStyle(headerStyle);
+		}
+
+		List<BoardEntity> dataList = boardRepo.findAll();
+
+		//바디
+		// logger.info("check : "+ boardRepo.findAll().size());
+		for(int i=0 ; i < dataList.size() ;i++ ){
+			row = sheet.createRow(i+1); // 1부터 시작해야함 (헤더 이후로 출력 되어야 하기 때문)
+			BoardEntity data = dataList.get(i);
+
+			cell =  row.createCell(0);
+			cell.setCellValue(data.getBoardNo());
+			
+			cell =  row.createCell(1);
+			cell.setCellValue(data.getBoardTitle());
+			
+			cell =  row.createCell(2);
+			cell.setCellValue(data.getBoardContent());
+			
+			cell =  row.createCell(3);
+			cell.setCellValue(data.getBoardId());
+
+
+			cell =  row.createCell(4);
+			// logger.error("크기 : "+ sheet.getColumnWidth(4));
+			sheet.setColumnWidth(4, 3000);		
+			// cell.setCellValue(data.getBoardDate());
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			cell.setCellValue(simpleDateFormat.format(data.getBoardDate()));
+
+			cell =  row.createCell(5);
+			cell.setCellValue(data.getViewCnt());
+		}
+
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
+		
+		FileOutputStream os = new FileOutputStream(fileName); 
+		
+		try{
+			workbook.write(response.getOutputStream());
+			workbook.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

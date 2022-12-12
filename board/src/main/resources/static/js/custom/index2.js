@@ -124,4 +124,33 @@
 		showList(pageUrl);
 	});
 
+	// 게시글 작성 이동
+	let $btwrite = $("button.write-button");
+	$btwrite.click(function () {
+		location.href = "../templates/write.html";
+	});
+
+	//  게시글 상세 이동
+	$(".table-responsive").on("click", "tbody tr", function () {
+		$board = $("tr").first();
+		// alert("클릭완료");
+		$boardNo = $(this).children($board).html(); // this-> 클릭한 것
+		// alert($boardNo);
+		location.href = "../templates/detail.html?boardNo=" + $boardNo;
+	});
+
+	// 엑셀 다운로드 클릭
+	$("div.excel-download").on("click", "button", (e) => {
+		$.ajax({
+			url:"http://localhost:8888/board/board/download/excel",
+			method:"get",
+			success: function(){
+				location.href = "http://localhost:8888/board/board/download/excel"
+			},
+			error: function(){
+				alert("다운로드 실패");
+			}
+		})
+	});
+
 })(jQuery);

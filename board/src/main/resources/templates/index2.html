@@ -19,115 +19,115 @@
     <!-- /load styles -->
 </head>
 <body>
-    <!-- Grid Item -->
-    <div class="col-xl-6">
+    <div class="container">
         
-        <!-- Entry Header -->
-        <div class="dt-entry__header">
+ 
+        <!-- Grid Item -->
+        <div class="col-xl-6">
             
-            <!-- Entry Heading -->
-            <!-- <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Simple Table With Stripped Rows</h3>
-            </div> -->
-            <!-- /entry heading -->
-            
-        </div>
-        <!-- /entry header -->
-        <div class = "search">
-            <input class = "search-box" type="text" placeholder="검색어를 입력 해 주세요">
-            <button class="bt-search btn btn-primary btn-sm" type="button"> 검색 </button>
-        </div>
-        <!-- Card -->
-        <div class="dt-card overflow-hidden">
-
-            <!-- Card Body -->
-            <div class="dt-card__body p-0">
-
-                <!-- Tables -->
-                <div class="table-responsive">
-                    <table class="table table-striped mb-0">
-                        <thead class="thead-light">
-                        <tr>
-                            <th scope="col">no</th>
-                            <th class="text-uppercase" scope="col">제목</th>
-                            <th class="text-uppercase" scope="col">작성자</th>
-                            <th class="text-uppercase" scope="col">작성일</th>
-                            <th class="text-uppercase" scope="col">조회수</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Chris</td>
-                            <td>Crowder</td>
-                            <td><a href="javascript:void(0)" class="btn-link">@c.crowder</a></td>
-                            <td>Crowder</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Domnic</td>
-                            <td>Brown</td>
-                            <td><a href="javascript:void(0)" class="btn-link">@dom.brown</a></td>
-                            <td>Crowder</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Jonathan</td>
-                            <td>Madano</td>
-                            <td><a href="javascript:void(0)" class="btn-link">@john.madano</a></td>
-                            <td>Crowder</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Stella</td>
-                            <td>Johnson</td>
-                            <td><a href="javascript:void(0)" class="btn-link">@stella.johnson</a>
-                            </td>
-                            <td>Crowder</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Michael</td>
-                            <td>Jacklin</td>
-                            <td><a href="javascript:void(0)" class="btn-link">@michael.jack</a></td>
-                            <td>Crowder</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /tables -->
-
+            <!-- Button-->
+            <div class="write-button">
+                <button class="write-button btn btn-outline-primary mr-2 mb-2 btn-sm" type="button">글 작성</button>
             </div>
-            <!-- /card body -->
+            <div class="header">
+                <div class = "search">
+                    <input class = "search-box" type="text" placeholder="검색어를 입력 해 주세요">
+                    <button class="bt-search btn btn-primary btn-sm" type="button"> 검색 </button>
+                </div>
+                <div class="excel-download">
+                    <button class="btn btn-outline-success mr-2 mb-2 btn-sm">엑셀 다운로드</button>
+                </div>
+            </div>
 
+            <!-- Card -->
+            <div class="dt-card overflow-hidden">
+
+                <!-- Card Body -->
+                <div class="dt-card__body p-0">
+
+                    <!-- Tables -->
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">no</th>
+                                <th class="text-uppercase" scope="col">제목</th>
+                                <th class="text-uppercase" scope="col">작성자</th>
+                                <th class="text-uppercase" scope="col">작성일</th>
+                                <th class="text-uppercase" scope="col">조회수</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Chris</td>
+                                <td>Crowder</td>
+                                <td><a href="javascript:void(0)" class="btn-link">@c.crowder</a></td>
+                                <td>Crowder</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Domnic</td>
+                                <td>Brown</td>
+                                <td><a href="javascript:void(0)" class="btn-link">@dom.brown</a></td>
+                                <td>Crowder</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Jonathan</td>
+                                <td>Madano</td>
+                                <td><a href="javascript:void(0)" class="btn-link">@john.madano</a></td>
+                                <td>Crowder</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Stella</td>
+                                <td>Johnson</td>
+                                <td><a href="javascript:void(0)" class="btn-link">@stella.johnson</a>
+                                </td>
+                                <td>Crowder</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>Michael</td>
+                                <td>Jacklin</td>
+                                <td><a href="javascript:void(0)" class="btn-link">@michael.jack</a></td>
+                                <td>Crowder</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /tables -->
+
+                </div>
+                <!-- /card body -->
+            </div>
+            <!-- /card -->
         </div>
-        <!-- /card -->
+        <!-- /grid item -->
 
-    </div>
-    <!-- /grid item -->
-
-    <!-- Pagination -->
-    <nav>
-        <ul class="pagination">
-            <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)"
-                tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="javascript:void(0)">2 <span
-                        class="sr-only">(current)</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">Next</a>
-            </li>
-        </ul>
-    </nav>
-    <!-- /pagination -->
-
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="javascript:void(0)"
+                    tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="javascript:void(0)">2 <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /pagination -->
+</div>
 
     <!-- Optional JavaScript -->
     <script src="../static/node_modules/jquery/dist/jquery.min.js"></script>

@@ -1,7 +1,17 @@
-/* search */
+*{
+    box-sizing: border-box;
+}
+
+.search-box{
+    min-width: 150px;
+}
+
+div.write-button{
+    margin-left : 79%
+}
 .search{
     margin-bottom: 20px;
-    margin-left : 50%;
+    /* margin-left : 50%; */
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -12,7 +22,31 @@
     margin-left :20%;
 }
 .bt-search{
-    margin-left: 10px;
-    max-width: 50px;
+    margin-left: 5px;
+    max-width: 100px;
     width: 90%;
+}
+
+/* .excel-download > button{
+    margin-left: 5px;
+    max-width: 100px;
+    width: 90%;
+} */
+
+.col-xl-6{
+    margin-top:50px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    /* align-items: baseline; */
+    justify-content: flex-end;
+}
+
+.excel-download{
+    width: 130px;
 }
